@@ -1,15 +1,21 @@
 version: '3.7'
 services:
+  web:
+    build: app
+    volumes:
+      - ./app:/app
+    image: webapp:2.0
+    networks: 
+      - webnet
+  nginx:
+    container_name: nginx
+    build: nginx
+    ports:
+      - 80:80
+    depends_on:
+      - web
+    networks: 
+      - webnet
 
-    app:
-        build: app
-        volumes:
-          - ./app:/app
-
-    nginx:
-        container_name: nginx
-        build: nginx
-        ports:
-            - 80:80
-        depends_on:
-           - app
+networks: 
+  webnet:
